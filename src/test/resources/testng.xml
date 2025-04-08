@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Selenium BrowserStack Test Suite" parallel="tests" thread-count="2">
+    
+    <!-- Local test execution -->
+    <test name="Local Tests - Chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="browserStackRun" value="false"/>
+        <classes>
+            <class name="com.test.tests.GoogleSearchTest"/>
+        </classes>
+    </test>
+    
+    <!-- BrowserStack test execution -->
+    <test name="BrowserStack Tests - Chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="browserStackRun" value="true"/>
+        <classes>
+            <class name="com.test.tests.BrowserStackDemoTest"/>
+        </classes>
+    </test>
+    
+    <!-- Uncomment to run Firefox tests on BrowserStack
+    <test name="BrowserStack Tests - Firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="browserStackRun" value="true"/>
+        <classes>
+            <class name="com.test.tests.BrowserStackDemoTest"/>
+        </classes>
+    </test>
+    -->
+    
+    <!-- Uncomment to run Edge tests on BrowserStack
+    <test name="BrowserStack Tests - Edge">
+        <parameter name="browser" value="edge"/>
+        <parameter name="browserStackRun" value="true"/>
+        <classes>
+            <class name="com.test.tests.BrowserStackDemoTest"/>
+        </classes>
+    </test>
+    -->
+    
+    <listeners>
+        <listener class-name="com.test.framework.listeners.TestListener"/>
+    </listeners>
+</suite>
