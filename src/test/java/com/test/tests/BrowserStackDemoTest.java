@@ -29,7 +29,7 @@ public class BrowserStackDemoTest extends BaseTest {
     @BeforeMethod
     public void checkBrowserStackCredentials() {
         String username = ConfigManager.getBrowserStackProperty("username");
-        String accessKey = ConfigManager.getBrowserStackProperty("accessKey");
+        String accessKey = ConfigManager.getBrowserStackProperty("access_key");
         
         // Set a flag to determine if we're running in local or remote mode
         String runLocalStr = ConfigManager.getProperty("execution.local");
