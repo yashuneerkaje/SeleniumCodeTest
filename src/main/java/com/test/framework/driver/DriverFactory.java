@@ -16,20 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Factory class to create WebDriver instances based on browser type
+ * Factory class to create WebDriver instances based on browser type.
  */
 public class DriverFactory {
     private static final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
-    
-    // Replit paths for Chromium and ChromeDriver
-    private static final String CHROMIUM_PATH = "/nix/store/zi4f80l169xlmivz8vja8wlphq74qqk0-chromium-125.0.6422.141/bin/chromium";
-    private static final String CHROMEDRIVER_PATH = "/nix/store/3qnxr5x6gw3k9a9i7d0akz0m6bksbwff-chromedriver-125.0.6422.141/bin/chromedriver";
-    
+
     /**
-     * Creates a new WebDriver instance
-     * 
-     * @param browser the browser to create
-     * @param useBrowserStack whether to use BrowserStack
+     * Creates a new WebDriver instance.
+     *
+     * @param browser          the browser to create
+     * @param useBrowserStack  whether to use BrowserStack
      * @return the WebDriver instance
      */
     public static WebDriver createDriver(String browser, boolean useBrowserStack) {
@@ -39,102 +35,89 @@ public class DriverFactory {
             return createLocalDriver(browser);
         }
     }
-    
+
     /**
-     * Creates a local WebDriver instance
-     * 
+     * Creates a local WebDriver instance.
+     *
      * @param browser the browser to create
      * @return the WebDriver instance
      */
     private static WebDriver createLocalDriver(String browser) {
         WebDriver driver;
-        
+        boolean isHeadless = Boolean.parseBoolean(ConfigManager.getProperty("headless"));
+
         switch (browser.toLowerCase()) {
             case "chrome":
-                logger.info("Initializing Chrome driver");
-                
-                // Set Chrome binary location for Replit
-                System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
-                
+                logger.info("Initializing ChromeDriver");
+                WebDriverManager.chromedriver().setup();
+
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setBinary(CHROMIUM_PATH);
-                
-                // Add Chrome specific options
-                if (Boolean.parseBoolean(ConfigManager.getProperty("headless"))) {
+                if (isHeadless) {
                     logger.info("Configuring Chrome for headless execution");
                     chromeOptions.addArguments("--headless=new");
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
-                    chromeOptions.addArguments("--disable-gpu");
                     chromeOptions.addArguments("--window-size=1920,1080");
                 }
-                
                 driver = new ChromeDriver(chromeOptions);
                 break;
-                
+
             case "firefox":
-                logger.info("Initializing Firefox driver");
+                logger.info("Initializing FirefoxDriver");
                 WebDriverManager.firefoxdriver().setup();
+
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                
-                // Add Firefox specific options
-                if (Boolean.parseBoolean(ConfigManager.getProperty("headless"))) {
+                if (isHeadless) {
                     logger.info("Configuring Firefox for headless execution");
                     firefoxOptions.addArguments("--headless");
                     firefoxOptions.addArguments("--width=1920");
                     firefoxOptions.addArguments("--height=1080");
                 }
-                
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
-                
+
             case "edge":
-                logger.info("Initializing Edge driver");
+                logger.info("Initializing EdgeDriver");
                 WebDriverManager.edgedriver().setup();
+
                 EdgeOptions edgeOptions = new EdgeOptions();
-                
-                // Add Edge specific options
-                if (Boolean.parseBoolean(ConfigManager.getProperty("headless"))) {
+                if (isHeadless) {
                     logger.info("Configuring Edge for headless execution");
                     edgeOptions.addArguments("--headless");
+                    edgeOptions.addArguments("--window-size=1920,1080");
                 }
-                
                 driver = new EdgeDriver(edgeOptions);
                 break;
-                
+
             case "safari":
-                logger.info("Initializing Safari driver");
-                // Safari does not support headless mode
+                logger.info("Initializing SafariDriver");
+                // Note: Safari does not support headless mode
                 driver = new SafariDriver(new SafariOptions());
                 break;
-                
+
             default:
-                logger.info("Browser not specified or recognized, defaulting to Chrome");
-                
-                // Set Chrome binary location for Replit
-                System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
-                
+                logger.warn("Browser [{}] not recognized. Defaulting to ChromeDriver.", browser);
+                WebDriverManager.chromedriver().setup();
+
                 ChromeOptions defaultOptions = new ChromeOptions();
-                defaultOptions.setBinary(CHROMIUM_PATH);
-                
-                if (Boolean.parseBoolean(ConfigManager.getProperty("headless"))) {
+                if (isHeadless) {
                     logger.info("Configuring default Chrome for headless execution");
                     defaultOptions.addArguments("--headless=new");
                     defaultOptions.addArguments("--no-sandbox");
                     defaultOptions.addArguments("--disable-dev-shm-usage");
+                    defaultOptions.addArguments("--window-size=1920,1080");
                 }
-                
                 driver = new ChromeDriver(defaultOptions);
         }
-        
+
         return driver;
     }
-    
+
     /**
-     * Creates a BrowserStack WebDriver instance
-     * 
-     * @param browser the browser to create on BrowserStack
-     * @return the WebDriver instance
+     * Creates a BrowserStack WebDriver instance.
+     *
+     * @param browser the browser to create
+     * @return the BrowserStack WebDriver instance
      */
     private static WebDriver createBrowserStackDriver(String browser) {
         logger.info("Creating BrowserStack WebDriver instance for browser: {}", browser);

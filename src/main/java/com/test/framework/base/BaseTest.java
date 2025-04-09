@@ -3,9 +3,11 @@ package com.test.framework.base;
 import com.test.framework.config.ConfigManager;
 import com.test.framework.driver.DriverManager;
 import com.test.framework.reporting.ExtentReportManager;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -13,6 +15,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import java.lang.reflect.Method;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 /**
  * Base test class that all test classes should extend.
@@ -21,6 +25,7 @@ import java.lang.reflect.Method;
 public class BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
     protected WebDriver driver;
+    protected boolean isRemoteExecution = false;
 
     @BeforeSuite
     public void beforeSuite() {
@@ -60,8 +65,21 @@ public class BaseTest {
     public void tearDown() {
         logger.info("Tearing down WebDriver after test");
         if (driver != null) {
-            DriverManager.quitDriver();
+            //DriverManager.quitDriver();
         }
         ExtentReportManager.endTest();
     }
+
+    protected void handleTestFailure(Exception e) {
+        logger.error("Test encountered an error", e);
+        ExtentReportManager.logFail("Test failed: " + e.getMessage());
+
+        if (isRemoteExecution) {
+            ((JavascriptExecutor) driver).executeScript(
+                    "browserstack_executor: {\"action\": \"setSessionStatus\", \"arguments\": {\"status\":\"failed\", \"reason\": \"" + e.getMessage() + "\"}}"
+            );
+        }
+        Assert.fail("Test failed: " + e.getMessage());
+    }
+
 }

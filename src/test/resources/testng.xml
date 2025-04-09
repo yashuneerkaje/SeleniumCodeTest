@@ -3,32 +3,34 @@
 <suite name="Selenium BrowserStack Test Suite" parallel="tests" thread-count="2">
     
     <!-- Local test execution -->
-    <test name="Local Tests - Chrome">
-        <parameter name="browser" value="chrome"/>
-        <parameter name="browserStackRun" value="false"/>
-        <classes>
-            <class name="com.test.tests.GoogleSearchTest"/>
-        </classes>
-    </test>
+<!--    <test name="Local Tests - Chrome">-->
+<!--        <parameter name="browser" value="chrome"/>-->
+<!--        <parameter name="browserStackRun" value="true"/>-->
+<!--        <classes>-->
+<!--            <class name="com.test.tests.GoogleSearchTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
     
     <!-- BrowserStack test execution -->
-    <test name="BrowserStack Tests - Chrome">
+     <test name="BrowserStack Tests - Chrome">
         <parameter name="browser" value="chrome"/>
         <parameter name="browserStackRun" value="true"/>
+         <parameter name="resolution" value="1920x1080"/>
         <classes>
-            <class name="com.test.tests.BrowserStackDemoTest"/>
+            <class name="com.test.tests.RegisterTest"/>
         </classes>
     </test>
     
-    <!-- Uncomment to run Firefox tests on BrowserStack
+    <!-- Uncomment to run Firefox tests on BrowserStack-->
     <test name="BrowserStack Tests - Firefox">
         <parameter name="browser" value="firefox"/>
         <parameter name="browserStackRun" value="true"/>
+        <parameter name="resolution" value="1366x768"/>
         <classes>
-            <class name="com.test.tests.BrowserStackDemoTest"/>
+            <class name="com.test.tests.RegisterTest"/>
         </classes>
     </test>
-    -->
+
     
     <!-- Uncomment to run Edge tests on BrowserStack
     <test name="BrowserStack Tests - Edge">

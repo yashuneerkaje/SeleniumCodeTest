@@ -24,7 +24,7 @@ import java.time.Duration;
 public class BrowserStackDemoTest extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(BrowserStackDemoTest.class);
     private static final String DEMO_URL = "https://bstackdemo.com/";
-    private boolean isRemoteExecution = false;
+    private boolean isRemoteExecution = true;
     
     @BeforeMethod
     public void checkBrowserStackCredentials() {
