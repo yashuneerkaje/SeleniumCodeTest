@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Selenium BrowserStack Test Suite" parallel="tests" thread-count="2">
+<suite name="Selenium BrowserStack Test Suite" parallel="tests" thread-count="1">
     
     <!-- Local test execution -->
 <!--    <test name="Local Tests - Chrome">-->
@@ -17,7 +17,7 @@
         <parameter name="browserStackRun" value="true"/>
          <parameter name="resolution" value="1920x1080"/>
         <classes>
-            <class name="com.test.tests.RegisterTest"/>
+            <class name="com.test.tests.UserJourneyTests"/>
         </classes>
     </test>
     
@@ -27,20 +27,20 @@
         <parameter name="browserStackRun" value="true"/>
         <parameter name="resolution" value="1366x768"/>
         <classes>
-            <class name="com.test.tests.RegisterTest"/>
+            <class name="com.test.tests.UserJourneyTests"/>
         </classes>
     </test>
 
     
-    <!-- Uncomment to run Edge tests on BrowserStack
+    <!-- Uncomment to run Edge tests on BrowserStack-->
     <test name="BrowserStack Tests - Edge">
         <parameter name="browser" value="edge"/>
         <parameter name="browserStackRun" value="true"/>
         <classes>
-            <class name="com.test.tests.BrowserStackDemoTest"/>
+            <class name="com.test.tests.UserJourneyTests"/>
         </classes>
     </test>
-    -->
+
     
     <listeners>
         <listener class-name="com.test.framework.listeners.TestListener"/>

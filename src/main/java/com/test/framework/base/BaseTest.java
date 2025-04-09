@@ -65,7 +65,7 @@ public class BaseTest {
     public void tearDown() {
         logger.info("Tearing down WebDriver after test");
         if (driver != null) {
-            //DriverManager.quitDriver();
+            DriverManager.quitDriver();
         }
         ExtentReportManager.endTest();
     }

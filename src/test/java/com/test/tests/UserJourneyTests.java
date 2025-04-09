@@ -6,7 +6,6 @@ import com.test.framework.reporting.ExtentReportManager;
 import com.test.pages.HomePage;
 import com.test.pages.RegisterPage;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -14,9 +13,9 @@ import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RegisterTest extends BaseTest {
+public class UserJourneyTests extends BaseTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(RegisterTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserJourneyTests.class);
     private static final String DEMO_URL = "https://www.shophighlinewarren.com/login";
 
     private RegisterPage registerPage;
