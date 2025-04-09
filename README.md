@@ -22,6 +22,7 @@ This project is a basic UI automation framework created as part of the coding ex
 - User Registration Flow
 
 ## How to Run the Tests
+Prerequisites: Java 17, Maven 3.x installed.
 1. Clone the repository.
 2. Set your BrowserStack credentials inside the `browserstack.properties` file.
 3. Run the tests by executing the `testng.xml` file.
